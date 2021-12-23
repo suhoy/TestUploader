@@ -1,22 +1,17 @@
 package suhoy.ltuploader;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.hc.client5.http.impl.sync.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.sync.HttpClients;
-import org.apache.hc.client5.http.impl.sync.HttpClientBuilder;
 import org.apache.hc.client5.http.methods.CloseableHttpResponse;
 import org.apache.hc.client5.http.methods.HttpPost;
-import org.apache.hc.client5.http.methods.HttpGet;
-import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.entity.ContentType;
 import org.apache.hc.core5.http.entity.EntityUtils;
 import org.apache.hc.core5.http.entity.StringEntity;
-import org.apache.sling.commons.json.JSONException;
 import org.apache.sling.commons.json.JSONObject;
 import java.util.Base64;
 
@@ -24,9 +19,10 @@ import java.util.Base64;
  *
  * @author suh1995
  */
-public class Test {
+public class Run {
 
     private long id;
+    private long system_id;
     private String url;
     private String start;
     private String end;
@@ -35,9 +31,10 @@ public class Test {
     private String pass;
     private JSONObject message;
 
-    public Test(String url, String user, String pass, String name, String start, String end) {
+    public Run(String url, long system_id, String user, String pass, String name, String start, String end) {
         try {
             this.url = url;
+            this.system_id=system_id;
             this.start = start;
             this.end = end;
             this.user = user;
@@ -48,7 +45,7 @@ public class Test {
             message.put("time_start", start);
             message.put("time_finish", end);
         } catch (Exception ex) {
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -56,7 +53,7 @@ public class Test {
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
             
-            HttpPost httpPost = new HttpPost(url);
+            HttpPost httpPost = new HttpPost(url+"?system_id="+system_id);
             String encoding = Base64.getEncoder().encodeToString((user+":"+pass).getBytes());
             httpPost.setHeader(HttpHeaders.AUTHORIZATION, "Basic " + encoding);
             httpPost.removeHeaders("Content type");
@@ -79,7 +76,7 @@ public class Test {
             return true;
 
         } catch (Exception ex) {
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
 

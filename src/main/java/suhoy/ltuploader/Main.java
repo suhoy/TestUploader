@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- *
  * @author suh1995
  */
 public class Main {
@@ -21,8 +20,13 @@ public class Main {
     public static void main(String[] arg) {
         ReadParams(arg);
         ReadProps();
-        Test test = new Test(prop.getProperty("api.test"), prop.getProperty("api.user"),prop.getProperty("api.pass"), String.join(" ", args.get("name")), args.get("time_start").get(0), args.get("time_finish").get(0));
-        test.createTest();
+        Run run = new Run(prop.getProperty("api.run") ,Long.parseLong(prop.getProperty("system.id")), prop.getProperty("api.user"), prop.getProperty("api.pass"), String.join(" ", args.get("name")), args.get("time_start").get(0), args.get("time_finish").get(0));
+        if (run.createTest()) {
+            System.out.println("Тест создан");
+        } else {
+            System.out.println("Ошибка при создании теста");
+            System.exit(1);
+        }
 
     }
 
@@ -54,7 +58,7 @@ public class Main {
 
     public static void ReadProps() {
         try {
-            prop.load(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.txt"), Charset.forName("UTF-8")));
+            prop.load(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties"), Charset.forName("UTF-8")));
             System.out.println("\r\nGet config, unsorted:");
             Enumeration keys = prop.keys();
             while (keys.hasMoreElements()) {
