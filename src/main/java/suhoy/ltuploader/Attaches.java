@@ -14,41 +14,41 @@ import org.apache.sling.commons.json.JSONObject;
 import java.io.File;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Graphs {
+public class Attaches {
     private String url;
     private String user;
     private String pass;
     private long run_id;
-    private List<String> abouts = new ArrayList<>();
     private List<String> tags = new ArrayList<>();
     private List<File> datas = new ArrayList<>();
     private List<String> filenames = new ArrayList<>();
 
-    public Graphs(String url, String user, String pass, long run_id) {
+    public Attaches(String url, String user, String pass, long run_id) {
         this.url = url;
         this.user = user;
         this.pass = pass;
         this.run_id = run_id;
     }
 
-    public void addGraphs(String tag, String about, String filename, File data) {
+    public void addAttach(String tag, String filename, File data) {
         tags.add(tag);
-        abouts.add(about);
         filenames.add(filename);
         datas.add(data);
     }
 
-    public boolean sendGraphs() {
+    public boolean sendAttaches() {
         boolean result = false;
         for (int i = 0; i < tags.size(); i++) {
             try {
                 CloseableHttpClient httpclient = HttpClients.createDefault();
 
-                HttpPost httpPost = new HttpPost(url + "?run_id=" + run_id + "&tag=" + URLEncoder.encode(tags.get(i), "UTF-8") + "&about=" + URLEncoder.encode(abouts.get(i), "UTF-8"));
+                HttpPost httpPost = new HttpPost(url + "?run_id=" + run_id + "&tag=" + URLEncoder.encode(tags.get(i), "UTF-8"));
                 String encoding = Base64.getEncoder().encodeToString((user + ":" + pass).getBytes());
                 httpPost.setHeader(HttpHeaders.AUTHORIZATION, "Basic " + encoding);
 
@@ -60,8 +60,7 @@ public class Graphs {
 
                 CloseableHttpResponse response = httpclient.execute(httpPost);
                 HttpEntity entityresp = response.getEntity();
-                entityreq.close();
-                httpPost.cancel();
+
 
                 String json = EntityUtils.toString(entityresp, StandardCharsets.UTF_8);
 
@@ -74,6 +73,8 @@ public class Graphs {
                 if (jo.getString("result").equalsIgnoreCase("ok")) {
                     result = true;
                 }
+                entityreq.close();
+                httpPost.cancel();
 
             } catch (Exception ex) {
                 Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);

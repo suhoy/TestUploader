@@ -80,6 +80,30 @@ public class Main {
             }
         }
 
+
+        //отправка вложений
+        if (Boolean.parseBoolean(prop.getProperty("attaches.enabled"))) {
+            System.out.println("Добавление вложений...");
+
+            Attaches attaches = new Attaches(prop.getProperty("api.attach"), prop.getProperty("api.user"), prop.getProperty("api.pass"), run.getId());
+            for (int i = 0; i < Integer.parseInt(prop.getProperty("attaches.count")); i++) {
+                try {
+                    String tag = prop.getProperty("attach" + (i + 1) + ".tag");
+                    String filename = prop.getProperty("attach" + (i + 1) + ".file");
+                    String path = args.get("attaches").get(0);
+                    File file = new File(path + "\\" + filename);
+
+                    attaches.addAttach(tag,filename, file);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (attaches.sendAttaches()) {
+                System.out.println("Вложения добавлены.\n");
+            } else {
+                System.out.println("Ошибка при добавлении вложений.\n");
+            }
+        }
     }
 
     public static void ReadParams(String[] arg) {
