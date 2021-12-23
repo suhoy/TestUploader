@@ -1,0 +1,22 @@
+[
+  {
+    "tag": "95%",
+    "script": "script5",
+    "sla": 1.0,
+    "profile": 3600,
+    "pass_count": 3500,
+    "fail_count": 100,
+    "pass_time": 0.8,
+    "fail_time": 0.1
+  },
+  {
+    "tag": "99%",
+    "script": "script5",
+    "sla": 1.0,
+    "profile": 3600,
+    "pass_count": 3500,
+    "fail_count": 100,
+    "pass_time": 0.9,
+    "fail_time": 0.1
+  }
+]

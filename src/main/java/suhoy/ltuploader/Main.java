@@ -1,8 +1,12 @@
 package suhoy.ltuploader;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -104,6 +108,30 @@ public class Main {
                 System.out.println("Ошибка при добавлении вложений.\n");
             }
         }
+
+        //отправка статистики
+        if (Boolean.parseBoolean(prop.getProperty("stats.enabled"))) {
+            System.out.println("Добавление статистики...");
+
+            Stats stats = new Stats(prop.getProperty("api.stat"), prop.getProperty("api.user"), prop.getProperty("api.pass"), run.getId());
+            for (int i = 0; i < Integer.parseInt(prop.getProperty("stats.count")); i++) {
+                try {
+                    String filename = prop.getProperty("stat" + (i + 1) + ".file");
+                    String path = args.get("stats").get(0);
+                    String jas = readFile(path + "\\" + filename, StandardCharsets.UTF_8);
+                    stats.addStat(jas);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (stats.sendStats()) {
+                System.out.println("Статистики добавлены.\n");
+            } else {
+                System.out.println("Ошибка при добавлении статистики.\n");
+            }
+        }
+
+
     }
 
     public static void ReadParams(String[] arg) {
@@ -145,5 +173,11 @@ public class Main {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+    static String readFile(String path, Charset encoding)
+            throws IOException
+    {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
     }
 }

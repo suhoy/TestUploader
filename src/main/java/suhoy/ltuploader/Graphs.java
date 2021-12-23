@@ -77,7 +77,6 @@ public class Graphs {
 
             } catch (Exception ex) {
                 Logger.getLogger(Run.class.getName()).log(Level.SEVERE, null, ex);
-                return false;
             }
         }
         return result;
