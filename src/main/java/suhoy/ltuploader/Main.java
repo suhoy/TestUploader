@@ -1,5 +1,6 @@
 package suhoy.ltuploader;
 
+import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -26,23 +27,56 @@ public class Main {
         System.out.println("\nСоздание теста...");
         Run run = new Run(prop.getProperty("api.run"), Long.parseLong(prop.getProperty("system.id")), prop.getProperty("api.user"), prop.getProperty("api.pass"), String.join(" ", args.get("name")), args.get("time_start").get(0), args.get("time_finish").get(0));
         if (run.createTest()) {
-            System.out.println("Тест создан\n");
+            System.out.println("Тест создан.\n");
         } else {
-            System.out.println("Ошибка при создании теста\n");
+            System.out.println("Ошибка при создании теста.\n");
             System.exit(1);
         }
 
+
         //отправка инфы по тесту
-        System.out.println("Добавление информации...");
         if (Boolean.parseBoolean(prop.getProperty("infos.enabled"))) {
-            Infos infos = new Infos(prop.getProperty("api.infos"),prop.getProperty("api.user"), prop.getProperty("api.pass"), run.getId());
+            System.out.println("Добавление информации...");
+            Infos infos = new Infos(prop.getProperty("api.infos"), prop.getProperty("api.user"), prop.getProperty("api.pass"), run.getId());
             for (int i = 0; i < Integer.parseInt(prop.getProperty("infos.count")); i++) {
-                infos.setInfos(prop.getProperty("info" + (i + 1) + ".tag"), prop.getProperty("info" + (i + 1) + ".data"));
+                try {
+                    String tag = prop.getProperty("info" + (i + 1) + ".tag");
+                    String data = prop.getProperty("info" + (i + 1) + ".data");
+                    infos.addInfos(tag, data);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
             if (infos.sendInfos()) {
                 System.out.println("Информация добавлена\n");
             } else {
-                System.out.println("Ошибка при добавлении информации\n");
+                System.out.println("Ошибка при добавлении информации.\n");
+            }
+        }
+
+
+        //отправка графиков
+        if (Boolean.parseBoolean(prop.getProperty("graphs.enabled"))) {
+            System.out.println("Добавление графиков...");
+
+            Graphs graphs = new Graphs(prop.getProperty("api.graph"), prop.getProperty("api.user"), prop.getProperty("api.pass"), run.getId());
+            for (int i = 0; i < Integer.parseInt(prop.getProperty("graphs.count")); i++) {
+                try {
+                    String tag = prop.getProperty("graph" + (i + 1) + ".tag");
+                    String about = prop.getProperty("graph" + (i + 1) + ".about");
+                    String filename = prop.getProperty("graph" + (i + 1) + ".file");
+                    String path = args.get("graphs").get(0);
+                    File file = new File(path + "\\" + filename);
+
+                    graphs.addGraphs(tag, about,filename, file);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (graphs.sendGraphs()) {
+                System.out.println("Графики добавлены.\n");
+            } else {
+                System.out.println("Ошибка при добавлении графиков.\n");
             }
         }
 
