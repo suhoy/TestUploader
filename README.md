@@ -1,3 +1,33 @@
+# TestDataUploader
+Uploading test data util for [load testing hub](https://github.com/suhoy/cms-boot)  
+
+Util creates run entity and upload info, graph, attach and stat.  
+
+To collect graph use [grafana downloader](https://github.com/suhoy/GrafanaDownloader)  
+To collect stat use [influx exporter json](https://github.com/suhoy/InfluxExporterJson)  
+
+
+
+### Arguments
+```java
+-name           Run name  
+-time_start     Run start time  
+-time_finish    Run finish time  
+-graphs         Folder with graphs (absolute or relative path)  
+-attaches       Folder with graphs (absolute or relative path)  
+-stats          Folder with stats (absolute or relative path)  
+
+```
+
+### Start example
+```java
+java -jar TestUploader-1.0.jar -name Примерный запуск -time_start 2021-12-01T07:55 -time_finish 2021-12-02T22:01 -graphs .\input\graphs -attaches .\input\attaches -stats .\input\stats  
+```  
+  
+  
+### Config example  
+Put config.properties near jar 
+```properties
 #links
 system.id=1
 api.run=http://localhost:8080/api/add/run
@@ -7,10 +37,8 @@ api.attach=http://localhost:8080/api/add/attach
 api.stat=http://localhost:8080/api/add/stats
 
 #auth
-#api.user=user@admin.com
-#api.pass=user
-api.user=lehiji6389@leanrights.com
-api.pass=lehiji6389@leanrights.com
+api.user=user@admin.com
+api.pass=user
 
 #infos
 infos.enabled=true
@@ -55,9 +83,4 @@ attach2.tag=Тэг вложения 2
 stats.enabled=true
 stats.count=1
 stat1.file=stat1.json
-
-
-
-
-
-
+```

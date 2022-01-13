@@ -1,0 +1,4 @@
+java -jar TestUploader-1.0.jar -name -time_start -time_finish -graphs -attaches -stats   
+
+
+java -jar TestUploader-1.0.jar -name Примерный запуск -time_start 2021-12-01T07:55 -time_finish 2021-12-02T22:01 -graphs .\input\graphs -attaches .\input\attaches -stats .\input\stats  
