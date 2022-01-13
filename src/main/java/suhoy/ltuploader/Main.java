@@ -125,7 +125,7 @@ public class Main {
                 }
             }
             if (stats.sendStats()) {
-                System.out.println("Статистики добавлены.\n");
+                System.out.println("Статистика добавлена.\n");
             } else {
                 System.out.println("Ошибка при добавлении статистики.\n");
             }
@@ -154,7 +154,7 @@ public class Main {
                 return;
             }
         }
-        System.out.println("\nStarted with args:\n");
+        System.out.println("\nStarted with args:");
         for (Map.Entry<String, List<String>> entry : args.entrySet()) {
             System.out.println(entry.getKey() + ":" + entry.getValue());
         }
@@ -163,7 +163,7 @@ public class Main {
     public static void ReadProps() {
         try {
             prop.load(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties"), Charset.forName("UTF-8")));
-            System.out.println("\nGet config, unsorted:\n");
+            System.out.println("\nGet config, unsorted:");
             Enumeration keys = prop.keys();
             while (keys.hasMoreElements()) {
                 String key = (String) keys.nextElement();
