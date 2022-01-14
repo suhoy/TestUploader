@@ -21,15 +21,20 @@ public class Main {
     final static Properties prop = new Properties();
 
     public static void main(String[] arg) {
+        System.out.println("\n==========TestUploader started==========");
+
         //считывание параметров
         ReadParams(arg);
         ReadProps(args.get("config").get(0));
+
+        boolean testcreated = false;
 
         //создание теста
         System.out.println("\nСоздание теста...");
         Run run = new Run(prop.getProperty("api.run"), Long.parseLong(prop.getProperty("system.id")), prop.getProperty("api.user"), prop.getProperty("api.pass"), String.join(" ", args.get("name")), args.get("time_start").get(0), args.get("time_finish").get(0));
         if (run.createTest()) {
             System.out.println("Тест создан.\n");
+            testcreated = true;
         } else {
             System.out.println("Ошибка при создании теста.\n");
             System.exit(1);
@@ -70,7 +75,7 @@ public class Main {
                     String path = args.get("graphs").get(0);
                     File file = new File(path + "\\" + filename);
 
-                    graphs.addGraphs(tag, about,filename, file);
+                    graphs.addGraphs(tag, about, filename, file);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -95,7 +100,7 @@ public class Main {
                     String path = args.get("attaches").get(0);
                     File file = new File(path + "\\" + filename);
 
-                    attaches.addAttach(tag,filename, file);
+                    attaches.addAttach(tag, filename, file);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -129,7 +134,11 @@ public class Main {
             }
         }
 
+        if (testcreated) {
+            System.out.println("Ссылка на протокол: " + "api.result=http://localhost:8080/run_view?id=" + run.getId());
+        }
 
+        System.out.println("\n==========TestUploader stopped==========");
     }
 
     public static void ReadParams(String[] arg) {
@@ -163,7 +172,7 @@ public class Main {
             //prop.load(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties"), Charset.forName("UTF-8")));
 
             //InputStream input = new FileInputStream(config);
-            prop.load(new InputStreamReader(new FileInputStream(config),"UTF-8"));
+            prop.load(new InputStreamReader(new FileInputStream(config), "UTF-8"));
             //input.close();
 
             System.out.println("\nGet config, unsorted:");
@@ -177,9 +186,9 @@ public class Main {
             ex.printStackTrace();
         }
     }
+
     static String readFile(String path, Charset encoding)
-            throws IOException
-    {
+            throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded, encoding);
     }

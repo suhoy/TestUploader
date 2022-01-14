@@ -65,10 +65,10 @@ public class Graphs {
 
                 String json = EntityUtils.toString(entityresp, StandardCharsets.UTF_8);
 
-                System.out.println("Req:");
-                System.out.println(filenames.get(i));
-                System.out.println("Res:");
-                System.out.println(json);
+                System.out.println("Sending file="+filenames.get(i) +" with about="+abouts.get(i));
+                //System.out.println(filenames.get(i));
+                System.out.println("Get response="+json);
+                //System.out.println(json);
 
                 JSONObject jo = new JSONObject(json);
                 if (jo.getString("result").equalsIgnoreCase("ok")) {
