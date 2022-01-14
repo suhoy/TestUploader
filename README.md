@@ -11,6 +11,7 @@ To collect stat use [influx exporter json](https://github.com/suhoy/InfluxExport
 ### Arguments
 ```java
 -name           Run name  
+-config         Path to config file  
 -time_start     Run start time  
 -time_finish    Run finish time  
 -graphs         Folder with graphs (absolute or relative path)  
@@ -21,12 +22,11 @@ To collect stat use [influx exporter json](https://github.com/suhoy/InfluxExport
 
 ### Start example
 ```java
-java -jar TestUploader-1.0.jar -name Примерный запуск -time_start 2021-12-01T07:55 -time_finish 2021-12-02T22:01 -graphs .\input\graphs -attaches .\input\attaches -stats .\input\stats  
+java -jar TestUploader-1.0.jar -name Примерный запуск -config config.txt -time_start 2021-12-01T07:55 -time_finish 2021-12-02T22:01 -graphs .\input\graphs -attaches .\input\attaches -stats .\input\stats  
 ```  
   
   
 ### Config example  
-Put config.properties near jar 
 ```properties
 #links
 system.id=1

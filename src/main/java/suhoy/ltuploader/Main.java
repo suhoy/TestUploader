@@ -1,8 +1,6 @@
 package suhoy.ltuploader;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -25,7 +23,7 @@ public class Main {
     public static void main(String[] arg) {
         //считывание параметров
         ReadParams(arg);
-        ReadProps();
+        ReadProps(args.get("config").get(0));
 
         //создание теста
         System.out.println("\nСоздание теста...");
@@ -160,9 +158,14 @@ public class Main {
         }
     }
 
-    public static void ReadProps() {
+    public static void ReadProps(String config) {
         try {
-            prop.load(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties"), Charset.forName("UTF-8")));
+            //prop.load(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties"), Charset.forName("UTF-8")));
+
+            InputStream input = new FileInputStream(config);
+            prop.load(input);
+            input.close();
+
             System.out.println("\nGet config, unsorted:");
             Enumeration keys = prop.keys();
             while (keys.hasMoreElements()) {

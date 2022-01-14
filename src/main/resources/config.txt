@@ -9,8 +9,6 @@ api.stat=http://localhost:8080/api/add/stats
 #auth
 api.user=developer@admin.com
 api.pass=developer
-#api.user=lehiji6389@leanrights.com
-#api.pass=lehiji6389@leanrights.com
 
 #infos
 infos.enabled=true
