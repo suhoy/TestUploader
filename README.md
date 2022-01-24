@@ -35,6 +35,7 @@ api.infos=http://localhost:8080/api/add/infos
 api.graph=http://localhost:8080/api/add/graph
 api.attach=http://localhost:8080/api/add/attach
 api.stat=http://localhost:8080/api/add/stats
+api.result=http://localhost:8080/run_view?id=
 
 #auth
 api.user=user@admin.com

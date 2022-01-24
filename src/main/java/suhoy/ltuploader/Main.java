@@ -135,7 +135,7 @@ public class Main {
         }
 
         if (testcreated) {
-            System.out.println("Ссылка на протокол: " + "api.result=http://localhost:8080/run_view?id=" + run.getId());
+            System.out.println("Ссылка на протокол: " + prop.getProperty("api.result") + run.getId());
         }
 
         System.out.println("\n==========TestUploader stopped==========");
