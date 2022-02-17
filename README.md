@@ -15,7 +15,7 @@ To collect stat use [influx exporter json](https://github.com/suhoy/InfluxExport
 -time_start     Run start time  
 -time_finish    Run finish time  
 -graphs         Folder with graphs (absolute or relative path)  
--attaches       Folder with graphs (absolute or relative path)  
+-attaches       Folder with attaches (absolute or relative path)  
 -stats          Folder with stats (absolute or relative path)  
 
 ```
