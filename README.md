@@ -1,5 +1,5 @@
 # TestDataUploader
-Uploading test data util for [load testing hub](https://github.com/suhoy/cms-boot)  
+Uploading test data util for [load testing hub](https://github.com/suhoy/LoadTestingHubPublic)  
 
 Util creates run entity and upload info, graph, attach and stat.  
 
